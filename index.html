@@ -220,11 +220,31 @@
 
         /* Minimum touch target for mobile */
         @media (pointer: coarse) {
-            .nav-link, a, button {
+            button,
+            .nav-link,
+            nav a,
+            [role="menuitem"] {
                 min-height: 44px;
                 min-width: 44px;
                 display: inline-flex;
                 align-items: center;
+            }
+        }
+
+        /* Small mobile adjustments (< 380px) */
+        @media (max-width: 380px) {
+            .hero-anim-d3 .inline-flex {
+                width: 100%;
+                justify-content: center;
+            }
+            #verticalChart {
+                gap: 0.25rem;
+            }
+            #verticalChart .chart-bar {
+                width: 1rem;
+            }
+            #verticalChart span.absolute {
+                font-size: 0.6rem;
             }
         }
     </style>
@@ -290,7 +310,7 @@
     <main id="main-content">
 
     <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 lg:pt-44 lg:pb-32 z-10" aria-labelledby="hero-heading">
+    <section class="relative pt-28 pb-16 sm:pt-32 sm:pb-20 lg:pt-44 lg:pb-32 z-10" aria-labelledby="hero-heading">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                 <!-- Left Content -->
@@ -310,7 +330,7 @@
                         Descubra como o simples ato de cuidar de plantas transforma sua vida — reduzindo estresse, melhorando a saúde mental e reconectando você com a natureza.
                     </p>
 
-                    <div class="hero-anim-d3 flex flex-wrap gap-4 mb-10">
+                    <div class="hero-anim-d3 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-10">
                         <a href="#importancia" class="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-semibold text-white bg-leaf-800 rounded-lg hover:bg-leaf-700 transition-all duration-200 shadow-lg shadow-leaf-800/15 group">
                             Saiba Mais
                             <i data-lucide="arrow-down-right" class="w-4 h-4 group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform" aria-hidden="true"></i>
@@ -344,7 +364,7 @@
                 <div class="relative hero-anim-d2">
                     <div class="absolute inset-0 bg-leaf-300/30 rounded-[2rem] rotate-3 scale-[0.98] blur-xl translate-y-4" aria-hidden="true"></div>
                     <div class="relative overflow-hidden rounded-[1.5rem] shadow-2xl">
-                        <img src="https://picsum.photos/seed/green-garden-lush/800/600.jpg" alt="Jardim verde exuberante com plantas saudáveis iluminadas pelo sol" class="w-full h-[500px] lg:h-[600px] object-cover img-zoom" loading="lazy">
+                        <img src="https://picsum.photos/seed/green-garden-lush/800/600.jpg" alt="Jardim verde exuberante com plantas saudáveis iluminadas pelo sol" class="w-full h-[320px] sm:h-[420px] lg:h-[600px] object-cover img-zoom" loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-leaf-950/40 via-transparent to-transparent" aria-hidden="true"></div>
                         <div class="absolute bottom-6 left-6 right-6">
                             <div class="bg-white/90 backdrop-blur-md rounded-xl p-4 flex items-center gap-4">
@@ -359,7 +379,7 @@
                         </div>
                     </div>
                     <!-- Floating badge -->
-                    <div class="absolute -top-4 -right-4 bg-white rounded-xl shadow-lg p-3 float-anim border border-leaf-100" aria-hidden="true">
+                    <div class="absolute -top-4 -right-4 bg-white rounded-xl shadow-lg p-3 float-anim border border-leaf-100 hidden sm:block" aria-hidden="true">
                         <i data-lucide="sprout" class="w-8 h-8 text-leaf-600"></i>
                     </div>
                 </div>
@@ -368,7 +388,7 @@
     </section>
 
     <!-- Importance Section -->
-    <section id="importancia" class="relative py-24 z-10" aria-labelledby="importancia-heading">
+    <section id="importancia" class="relative py-16 sm:py-24 z-10" aria-labelledby="importancia-heading">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16 animate-on-scroll">
                 <span class="inline-block px-4 py-1.5 bg-leaf-200/60 rounded-full text-xs font-medium text-leaf-800 tracking-wide uppercase mb-4">Por que importa</span>
@@ -378,7 +398,7 @@
 
             <div class="grid md:grid-cols-2 gap-8 mb-16">
                 <!-- Card 1 -->
-                <article class="animate-on-scroll delay-1 card-hover bg-white rounded-2xl border border-leaf-200/80 p-8 group">
+                <article class="animate-on-scroll delay-1 card-hover bg-white rounded-2xl border border-leaf-200/80 p-5 sm:p-8 group">
                     <div class="w-14 h-14 bg-leaf-100 rounded-xl flex items-center justify-center mb-5 group-hover:bg-leaf-200 transition-colors duration-300">
                         <i data-lucide="brain" class="w-7 h-7 text-leaf-700" aria-hidden="true"></i>
                     </div>
@@ -390,7 +410,7 @@
                 </article>
 
                 <!-- Card 2 -->
-                <article class="animate-on-scroll delay-2 card-hover bg-white rounded-2xl border border-leaf-200/80 p-8 group">
+                <article class="animate-on-scroll delay-2 card-hover bg-white rounded-2xl border border-leaf-200/80 p-5 sm:p-8 group">
                     <div class="w-14 h-14 bg-earth-100 rounded-xl flex items-center justify-center mb-5 group-hover:bg-earth-200 transition-colors duration-300">
                         <i data-lucide="apple" class="w-7 h-7 text-earth-600" aria-hidden="true"></i>
                     </div>
@@ -402,7 +422,7 @@
                 </article>
 
                 <!-- Card 3 -->
-                <article class="animate-on-scroll delay-3 card-hover bg-white rounded-2xl border border-leaf-200/80 p-8 group">
+                <article class="animate-on-scroll delay-3 card-hover bg-white rounded-2xl border border-leaf-200/80 p-5 sm:p-8 group">
                     <div class="w-14 h-14 bg-sky-100 rounded-xl flex items-center justify-center mb-5 group-hover:bg-sky-200 transition-colors duration-300">
                         <i data-lucide="trees" class="w-7 h-7 text-sky-700" aria-hidden="true"></i>
                     </div>
@@ -414,7 +434,7 @@
                 </article>
 
                 <!-- Card 4 -->
-                <article class="animate-on-scroll delay-4 card-hover bg-white rounded-2xl border border-leaf-200/80 p-8 group">
+                <article class="animate-on-scroll delay-4 card-hover bg-white rounded-2xl border border-leaf-200/80 p-5 sm:p-8 group">
                     <div class="w-14 h-14 bg-rose-100 rounded-xl flex items-center justify-center mb-5 group-hover:bg-rose-200 transition-colors duration-300">
                         <i data-lucide="users" class="w-7 h-7 text-rose-600" aria-hidden="true"></i>
                     </div>
@@ -441,7 +461,7 @@
     </section>
 
     <!-- Benefits Section -->
-    <section id="beneficios" class="relative py-24 bg-white/50 z-10" aria-labelledby="beneficios-heading">
+    <section id="beneficios" class="relative py-16 sm:py-24 bg-white/50 z-10" aria-labelledby="beneficios-heading">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid lg:grid-cols-2 gap-16 items-center">
                 <div class="animate-on-scroll">
@@ -490,23 +510,23 @@
                 </div>
 
                 <div class="animate-on-scroll delay-2 relative">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="space-y-4">
+                    <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                        <div class="space-y-3 sm:space-y-4">
                             <div class="overflow-hidden rounded-2xl">
-                                <img src="https://picsum.photos/seed/herb-garden-pot/400/500.jpg" alt="Vaso com ervas aromáticas frescas" class="w-full h-64 object-cover img-zoom" loading="lazy">
+                                <img src="https://picsum.photos/seed/herb-garden-pot/400/500.jpg" alt="Vaso com ervas aromáticas frescas" class="w-full h-44 sm:h-64 object-cover img-zoom" loading="lazy">
                             </div>
-                            <div class="bg-leaf-800 rounded-2xl p-6 text-center">
-                                <p class="text-4xl font-bold text-leaf-100 stat-number" data-target="68" aria-label="68 porcento menos estresse">0</p>
-                                <p class="text-sm text-leaf-300 mt-1">% menos estresse</p>
+                            <div class="bg-leaf-800 rounded-2xl p-4 sm:p-6 text-center">
+                                <p class="text-3xl sm:text-4xl font-bold text-leaf-100 stat-number" data-target="68" aria-label="68 porcento menos estresse">0</p>
+                                <p class="text-xs sm:text-sm text-leaf-300 mt-1">% menos estresse</p>
                             </div>
                         </div>
-                        <div class="space-y-4 pt-8">
-                            <div class="bg-earth-300 rounded-2xl p-6 text-center">
-                                <p class="text-4xl font-bold text-earth-900 stat-number" data-target="45" aria-label="45 minutos por dia recomendados">0</p>
-                                <p class="text-sm text-earth-800 mt-1">min/dia recomendados</p>
+                        <div class="space-y-3 sm:space-y-4 pt-6 sm:pt-8">
+                            <div class="bg-earth-300 rounded-2xl p-4 sm:p-6 text-center">
+                                <p class="text-3xl sm:text-4xl font-bold text-earth-900 stat-number" data-target="45" aria-label="45 minutos por dia recomendados">0</p>
+                                <p class="text-xs sm:text-sm text-earth-800 mt-1">min/dia recomendados</p>
                             </div>
                             <div class="overflow-hidden rounded-2xl">
-                                <img src="https://picsum.photos/seed/flower-garden-sun/400/500.jpg" alt="Flores coloridas em jardim ensolarado" class="w-full h-64 object-cover img-zoom" loading="lazy">
+                                <img src="https://picsum.photos/seed/flower-garden-sun/400/500.jpg" alt="Flores coloridas em jardim ensolarado" class="w-full h-44 sm:h-64 object-cover img-zoom" loading="lazy">
                             </div>
                         </div>
                     </div>
@@ -516,7 +536,7 @@
     </section>
 
     <!-- Statistics Section -->
-    <section id="dados" class="relative py-24 z-10" aria-labelledby="dados-heading">
+    <section id="dados" class="relative py-16 sm:py-24 z-10" aria-labelledby="dados-heading">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16 animate-on-scroll">
                 <span class="inline-block px-4 py-1.5 bg-leaf-200/60 rounded-full text-xs font-medium text-leaf-800 tracking-wide uppercase mb-4">Dados & Pesquisas</span>
@@ -527,7 +547,7 @@
             <!-- Horizontal Bar Charts -->
             <div class="grid lg:grid-cols-2 gap-8 mb-16">
                 <!-- Chart 1 -->
-                <div class="animate-on-scroll delay-1 bg-white rounded-2xl border border-leaf-200/80 p-8" role="figure" aria-label="Gráfico de impacto na saúde">
+                <div class="animate-on-scroll delay-1 bg-white rounded-2xl border border-leaf-200/80 p-5 sm:p-8" role="figure" aria-label="Gráfico de impacto na saúde">
                     <div class="flex items-center gap-3 mb-8">
                         <div class="w-10 h-10 bg-leaf-100 rounded-lg flex items-center justify-center">
                             <i data-lucide="activity" class="w-5 h-5 text-leaf-700" aria-hidden="true"></i>
@@ -586,7 +606,7 @@
                 </div>
 
                 <!-- Chart 2: Impacto Ambiental -->
-                <div class="animate-on-scroll delay-2 bg-white rounded-2xl border border-leaf-200/80 p-8" role="figure" aria-label="Gráfico de impacto ambiental">
+                <div class="animate-on-scroll delay-2 bg-white rounded-2xl border border-leaf-200/80 p-5 sm:p-8" role="figure" aria-label="Gráfico de impacto ambiental">
                     <div class="flex items-center gap-3 mb-8">
                         <div class="w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center">
                             <i data-lucide="globe" class="w-5 h-5 text-sky-700" aria-hidden="true"></i>
@@ -663,38 +683,38 @@
                     </div>
                 </div>
 
-                <div class="flex items-end justify-between gap-3 sm:gap-6 h-64 pb-8" id="verticalChart">
-                    <div class="flex-1 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
+                <div class="flex items-end justify-between gap-3 sm:gap-6 h-48 sm:h-64 pb-8 overflow-x-auto" id="verticalChart">
+                    <div class="flex-1 min-w-0 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
                         <div class="tooltip" role="tooltip">América do Norte: 45M (2020) / 72M (2024)</div>
                         <div class="chart-bar w-6 sm:w-10 bg-leaf-600 rounded-t-lg" data-height="45" style="height:0%"></div>
                         <div class="chart-bar w-6 sm:w-10 bg-leaf-400 rounded-t-lg" data-height="72" style="height:0%"></div>
                         <span class="absolute -bottom-6 text-xs text-leaf-600 font-medium whitespace-nowrap">América N.</span>
                     </div>
-                    <div class="flex-1 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
+                    <div class="flex-1 min-w-0 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
                         <div class="tooltip" role="tooltip">América do Sul: 32M (2020) / 58M (2024)</div>
                         <div class="chart-bar w-6 sm:w-10 bg-leaf-600 rounded-t-lg" data-height="32" style="height:0%"></div>
                         <div class="chart-bar w-6 sm:w-10 bg-leaf-400 rounded-t-lg" data-height="58" style="height:0%"></div>
                         <span class="absolute -bottom-6 text-xs text-leaf-600 font-medium whitespace-nowrap">América S.</span>
                     </div>
-                    <div class="flex-1 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
+                    <div class="flex-1 min-w-0 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
                         <div class="tooltip" role="tooltip">Europa: 62M (2020) / 85M (2024)</div>
                         <div class="chart-bar w-6 sm:w-10 bg-leaf-600 rounded-t-lg" data-height="62" style="height:0%"></div>
                         <div class="chart-bar w-6 sm:w-10 bg-leaf-400 rounded-t-lg" data-height="85" style="height:0%"></div>
                         <span class="absolute -bottom-6 text-xs text-leaf-600 font-medium whitespace-nowrap">Europa</span>
                     </div>
-                    <div class="flex-1 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
+                    <div class="flex-1 min-w-0 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
                         <div class="tooltip" role="tooltip">Ásia: 38M (2020) / 68M (2024)</div>
                         <div class="chart-bar w-6 sm:w-10 bg-leaf-600 rounded-t-lg" data-height="38" style="height:0%"></div>
                         <div class="chart-bar w-6 sm:w-10 bg-leaf-400 rounded-t-lg" data-height="68" style="height:0%"></div>
                         <span class="absolute -bottom-6 text-xs text-leaf-600 font-medium whitespace-nowrap">Ásia</span>
                     </div>
-                    <div class="flex-1 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
+                    <div class="flex-1 min-w-0 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
                         <div class="tooltip" role="tooltip">África: 25M (2020) / 48M (2024)</div>
                         <div class="chart-bar w-6 sm:w-10 bg-leaf-600 rounded-t-lg" data-height="25" style="height:0%"></div>
                         <div class="chart-bar w-6 sm:w-10 bg-leaf-400 rounded-t-lg" data-height="48" style="height:0%"></div>
                         <span class="absolute -bottom-6 text-xs text-leaf-600 font-medium whitespace-nowrap">África</span>
                     </div>
-                    <div class="flex-1 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
+                    <div class="flex-1 min-w-0 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
                         <div class="tooltip" role="tooltip">Oceania: 40M (2020) / 65M (2024)</div>
                         <div class="chart-bar w-6 sm:w-10 bg-leaf-600 rounded-t-lg" data-height="40" style="height:0%"></div>
                         <div class="chart-bar w-6 sm:w-10 bg-leaf-400 rounded-t-lg" data-height="65" style="height:0%"></div>
@@ -708,7 +728,7 @@
     </section>
 
     <!-- How to Start Section -->
-    <section id="inicio" class="relative py-24 bg-white/50 z-10" aria-labelledby="inicio-heading">
+    <section id="inicio" class="relative py-16 sm:py-24 bg-white/50 z-10" aria-labelledby="inicio-heading">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16 animate-on-scroll">
                 <span class="inline-block px-4 py-1.5 bg-leaf-200/60 rounded-full text-xs font-medium text-leaf-800 tracking-wide uppercase mb-4">Primeiros passos</span>
@@ -798,7 +818,7 @@
     </section>
 
     <!-- Resources Section -->
-    <section id="recursos" class="relative py-24 z-10" aria-labelledby="recursos-heading">
+    <section id="recursos" class="relative py-16 sm:py-24 z-10" aria-labelledby="recursos-heading">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16 animate-on-scroll">
                 <span class="inline-block px-4 py-1.5 bg-leaf-200/60 rounded-full text-xs font-medium text-leaf-800 tracking-wide uppercase mb-4">Para se aprofundar</span>
@@ -840,7 +860,7 @@
     </main><!-- /main-content -->
 
     <!-- Footer -->
-    <footer class="relative bg-leaf-900 text-leaf-200 py-16 z-10" role="contentinfo">
+    <footer class="relative bg-leaf-900 text-leaf-200 py-12 sm:py-16 z-10" role="contentinfo">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
                 <div>
