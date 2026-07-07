@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Verde Vida — Descubra como a jardinagem transforma sua saúde, bem-estar e conexão com a natureza.">
+    <title>Verde Vida — Jardinagem & Bem-Estar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { poppins: ['Poppins', 'sans-serif'] },
+                    colors: {
+                        leaf: {
+                            50: '#f0fdf4', 100: '#dcfce7', 200: '#bbf7d0',
+                            300: '#86efac', 400: '#4ade80', 500: '#22c55e',
+                            600: '#16a34a', 700: '#15803d', 800: '#166534',
+                            900: '#14532d', 950: '#052e16'
+                        },
+                        earth: {
+                            50: '#faf6f1', 100: '#f0e6d6', 200: '#e0ccad',
+                            300: '#d4a76a', 400: '#c4883a', 500: '#b07028',
+                            600: '#8b5a1b', 700: '#6b4413', 800: '#4a2f0d',
+                            900: '#2d1c08'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Poppins', sans-serif; }
+        ::selection { background: #166534; color: #f0fdf4; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f0fdf4; }
+        ::-webkit-scrollbar-thumb { background: #bbf7d0; border-radius: 999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #86efac; }
+        html { scroll-behavior: smooth; }
+
+        /* Skip to content */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            padding: 12px 24px;
+            background: #166534;
+            color: #f0fdf4;
+            border-radius: 0 0 8px 8px;
+            font-weight: 600;
+            transition: top 0.2s ease;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Focus visible for keyboard navigation */
+        *:focus-visible {
+            outline: 3px solid #16a34a;
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        /* Respect reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .animate-on-scroll {
+                opacity: 1;
+                transform: none;
+            }
+            .float-anim, .float-anim-delay, .float-anim-delay2,
+            .leaf-spin, .badge-pulse {
+                animation: none;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes growBar { from { width: 0%; } }
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .animate-on-scroll.delay-1 { transition-delay: 0.1s; }
+        .animate-on-scroll.delay-2 { transition-delay: 0.2s; }
+        .animate-on-scroll.delay-3 { transition-delay: 0.3s; }
+        .animate-on-scroll.delay-4 { transition-delay: 0.4s; }
+        .animate-on-scroll.delay-5 { transition-delay: 0.5s; }
+        .animate-on-scroll.delay-6 { transition-delay: 0.6s; }
+
+        .hero-anim { animation: fadeInUp 0.8s ease-out forwards; }
+        .hero-anim-d1 { animation: fadeInUp 0.8s 0.15s ease-out forwards; opacity: 0; }
+        .hero-anim-d2 { animation: fadeInUp 0.8s 0.3s ease-out forwards; opacity: 0; }
+        .hero-anim-d3 { animation: fadeInUp 0.8s 0.45s ease-out forwards; opacity: 0; }
+        .hero-anim-d4 { animation: fadeInUp 0.8s 0.6s ease-out forwards; opacity: 0; }
+
+        .float-anim { animation: float 4s ease-in-out infinite; }
+        .float-anim-delay { animation: float 4s 1s ease-in-out infinite; }
+        .float-anim-delay2 { animation: float 4s 2s ease-in-out infinite; }
+        .leaf-spin { animation: spin-slow 20s linear infinite; }
+        .badge-pulse { animation: pulse-soft 2s ease-in-out infinite; }
+
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -12px rgba(22, 101, 52, 0.15);
+        }
+
+        .link-hover { position: relative; }
+        .link-hover::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #166534;
+            transition: width 0.3s ease;
+        }
+        .link-hover:hover::after { width: 100%; }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.2s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #166534;
+            transition: width 0.3s ease, left 0.3s ease;
+            border-radius: 999px;
+        }
+        .nav-link:hover::after { width: 100%; left: 0; }
+        .nav-link:hover { color: #166534; }
+
+        .img-zoom { transition: transform 0.6s ease, filter 0.6s ease; }
+        .img-zoom:hover { transform: scale(1.05); filter: brightness(1.05); }
+
+        .stat-number { font-variant-numeric: tabular-nums; }
+
+        .tooltip-container { position: relative; }
+        .tooltip-container .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(8px);
+            background: #14532d;
+            color: #f0fdf4;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .tooltip-container:hover .tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-4px);
+        }
+
+        .chart-bar {
+            transition: filter 0.2s ease, transform 0.2s ease;
+            cursor: pointer;
+        }
+        .chart-bar:hover {
+            filter: brightness(1.15);
+            transform: scaleY(1.03);
+            transform-origin: bottom;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+        .mobile-menu.open {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        /* Minimum touch target for mobile */
+        @media (pointer: coarse) {
+            .nav-link, a, button {
+                min-height: 44px;
+                min-width: 44px;
+                display: inline-flex;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body class="bg-leaf-50 text-leaf-950 font-poppins overflow-x-hidden">
+
+    <!-- Skip to main content link for keyboard users -->
+    <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
+    <!-- Decorative Background Elements (hidden from screen readers) -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-leaf-200/30 rounded-full blur-3xl float-anim"></div>
+        <div class="absolute top-1/2 right-0 w-96 h-96 bg-leaf-300/20 rounded-full blur-3xl float-anim-delay"></div>
+        <div class="absolute bottom-20 left-1/3 w-80 h-80 bg-earth-200/20 rounded-full blur-3xl float-anim-delay2"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-leaf-50/80 backdrop-blur-xl border-b border-leaf-200/50" id="navbar" aria-label="Navegação principal">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2 group" aria-label="Verde Vida - Página inicial">
+                <div class="w-9 h-9 bg-leaf-800 rounded-lg flex items-center justify-center group-hover:bg-leaf-700 transition-colors duration-200">
+                    <i data-lucide="leaf" class="w-5 h-5 text-leaf-100" aria-hidden="true"></i>
+                </div>
+                <span class="text-xl font-semibold tracking-tight text-leaf-900">Verde<span class="text-leaf-600">Vida</span></span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#importancia" class="nav-link text-sm font-medium text-leaf-700">Importância</a>
+                <a href="#beneficios" class="nav-link text-sm font-medium text-leaf-700">Benefícios</a>
+                <a href="#dados" class="nav-link text-sm font-medium text-leaf-700">Dados</a>
+                <a href="#inicio" class="nav-link text-sm font-medium text-leaf-700">Como Iniciar</a>
+                <a href="#recursos" class="nav-link text-sm font-medium text-leaf-700">Recursos</a>
+            </div>
+
+            <div class="hidden md:flex items-center gap-3">
+                <a href="#recursos" class="px-5 py-2.5 text-sm font-medium text-leaf-800 border border-leaf-300 rounded-lg hover:bg-leaf-100 transition-colors duration-200">Explorar</a>
+                <a href="#inicio" class="px-5 py-2.5 text-sm font-medium text-white bg-leaf-800 rounded-lg hover:bg-leaf-700 transition-colors duration-200 shadow-lg shadow-leaf-800/10">Começar</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden p-2 rounded-lg hover:bg-leaf-100 transition-colors" id="menuToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Abrir menu de navegação">
+                <i data-lucide="menu" class="w-5 h-5 text-leaf-800" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu md:hidden bg-leaf-50/95 backdrop-blur-xl border-t border-leaf-200/50" id="mobileMenu" role="menu" aria-hidden="true">
+            <div class="px-6 py-4 space-y-3">
+                <a href="#importancia" class="block py-2 text-sm font-medium text-leaf-700 hover:text-leaf-900 transition-colors" role="menuitem">Importância</a>
+                <a href="#beneficios" class="block py-2 text-sm font-medium text-leaf-700 hover:text-leaf-900 transition-colors" role="menuitem">Benefícios</a>
+                <a href="#dados" class="block py-2 text-sm font-medium text-leaf-700 hover:text-leaf-900 transition-colors" role="menuitem">Dados</a>
+                <a href="#inicio" class="block py-2 text-sm font-medium text-leaf-700 hover:text-leaf-900 transition-colors" role="menuitem">Como Iniciar</a>
+                <a href="#recursos" class="block py-2 text-sm font-medium text-leaf-700 hover:text-leaf-900 transition-colors" role="menuitem">Recursos</a>
+                <div class="pt-3 border-t border-leaf-200">
+                    <a href="#inicio" class="block text-center px-5 py-2.5 text-sm font-medium text-white bg-leaf-800 rounded-lg" role="menuitem">Começar Agora</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content">
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-44 lg:pb-32 z-10" aria-labelledby="hero-heading">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <!-- Left Content -->
+                <div>
+                    <div class="hero-anim inline-flex items-center gap-2 px-4 py-2 bg-leaf-200/60 rounded-full mb-6">
+                        <span class="w-2 h-2 bg-leaf-500 rounded-full badge-pulse" aria-hidden="true"></span>
+                        <span class="text-xs font-medium text-leaf-800 tracking-wide uppercase">Conecte-se com a natureza</span>
+                    </div>
+
+                    <h1 id="hero-heading" class="hero-anim-d1 text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight text-leaf-950 mb-6">
+                        Jardinagem:<br>
+                        <span class="text-leaf-600">cultive</span> saúde e<br>
+                        <span class="text-leaf-600">bem-estar</span>
+                    </h1>
+
+                    <p class="hero-anim-d2 text-lg text-leaf-700 leading-relaxed max-w-lg mb-8">
+                        Descubra como o simples ato de cuidar de plantas transforma sua vida — reduzindo estresse, melhorando a saúde mental e reconectando você com a natureza.
+                    </p>
+
+                    <div class="hero-anim-d3 flex flex-wrap gap-4 mb-10">
+                        <a href="#importancia" class="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-semibold text-white bg-leaf-800 rounded-lg hover:bg-leaf-700 transition-all duration-200 shadow-lg shadow-leaf-800/15 group">
+                            Saiba Mais
+                            <i data-lucide="arrow-down-right" class="w-4 h-4 group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform" aria-hidden="true"></i>
+                        </a>
+                        <a href="#dados" class="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-semibold text-leaf-800 bg-white border border-leaf-300 rounded-lg hover:bg-leaf-50 hover:border-leaf-400 transition-all duration-200">
+                            Ver Estatísticas
+                        </a>
+                    </div>
+
+                    <div class="hero-anim-d4 flex items-center gap-4">
+                        <div class="flex -space-x-3">
+                            <img src="https://picsum.photos/seed/gardener1/80/80.jpg" class="w-10 h-10 rounded-full border-2 border-leaf-50 object-cover" alt="Foto de jardineiro">
+                            <img src="https://picsum.photos/seed/gardener2/80/80.jpg" class="w-10 h-10 rounded-full border-2 border-leaf-50 object-cover" alt="Foto de jardineira">
+                            <img src="https://picsum.photos/seed/gardener3/80/80.jpg" class="w-10 h-10 rounded-full border-2 border-leaf-50 object-cover" alt="Foto de jardineiro">
+                            <div class="w-10 h-10 rounded-full border-2 border-leaf-50 bg-leaf-200 flex items-center justify-center text-xs font-semibold text-leaf-700" aria-label="Mais de 2 mil participantes">+2k</div>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-1" aria-label="Avaliação 5 de 5 estrelas">
+                                <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400" aria-hidden="true"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400" aria-hidden="true"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400" aria-hidden="true"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400" aria-hidden="true"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400" aria-hidden="true"></i>
+                            </div>
+                            <p class="text-xs text-leaf-600 mt-0.5">Jardinheiros satisfeitos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Image -->
+                <div class="relative hero-anim-d2">
+                    <div class="absolute inset-0 bg-leaf-300/30 rounded-[2rem] rotate-3 scale-[0.98] blur-xl translate-y-4" aria-hidden="true"></div>
+                    <div class="relative overflow-hidden rounded-[1.5rem] shadow-2xl">
+                        <img src="https://picsum.photos/seed/green-garden-lush/800/600.jpg" alt="Jardim verde exuberante com plantas saudáveis iluminadas pelo sol" class="w-full h-[500px] lg:h-[600px] object-cover img-zoom" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-leaf-950/40 via-transparent to-transparent" aria-hidden="true"></div>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <div class="bg-white/90 backdrop-blur-md rounded-xl p-4 flex items-center gap-4">
+                                <div class="w-12 h-12 bg-leaf-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="heart-pulse" class="w-6 h-6 text-leaf-600" aria-hidden="true"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold text-leaf-900">Saúde Mental Melhorada</p>
+                                    <p class="text-xs text-leaf-600">30 minutos de jardinagem reduzem o cortisol em 68%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Floating badge -->
+                    <div class="absolute -top-4 -right-4 bg-white rounded-xl shadow-lg p-3 float-anim border border-leaf-100" aria-hidden="true">
+                        <i data-lucide="sprout" class="w-8 h-8 text-leaf-600"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Importance Section -->
+    <section id="importancia" class="relative py-24 z-10" aria-labelledby="importancia-heading">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 animate-on-scroll">
+                <span class="inline-block px-4 py-1.5 bg-leaf-200/60 rounded-full text-xs font-medium text-leaf-800 tracking-wide uppercase mb-4">Por que importa</span>
+                <h2 id="importancia-heading" class="text-3xl sm:text-4xl font-bold tracking-tight text-leaf-950 mb-4">A importância da jardinagem</h2>
+                <p class="text-lg text-leaf-600 max-w-2xl mx-auto">Mais do que um hobby, a jardinagem é uma prática milenar que nutre corpo, mente e espírito — e a ciência comprova.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+                <!-- Card 1 -->
+                <article class="animate-on-scroll delay-1 card-hover bg-white rounded-2xl border border-leaf-200/80 p-8 group">
+                    <div class="w-14 h-14 bg-leaf-100 rounded-xl flex items-center justify-center mb-5 group-hover:bg-leaf-200 transition-colors duration-300">
+                        <i data-lucide="brain" class="w-7 h-7 text-leaf-700" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-leaf-900 mb-3">Saúde Mental & Emocional</h3>
+                    <p class="text-leaf-600 leading-relaxed mb-4">Estudos da <strong>Universidade de Exeter</strong> revelam que pessoas que jardinam regularmente apresentam níveis de estresse 36% menores e maior sensação de bem-estar comparado à prática de outros hobbies. O contato com o solo libera <em>Mycobacterium vaccae</em>, uma bactéria que estimula a produção de serotonina.</p>
+                    <a href="https://www.gardeningknowhow.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-sm font-medium text-leaf-700 hover:text-leaf-900 link-hover transition-colors">
+                        Saiba mais <i data-lucide="external-link" class="w-3.5 h-3.5" aria-hidden="true"></i><span class="sr-only">(abre em nova aba)</span>
+                    </a>
+                </article>
+
+                <!-- Card 2 -->
+                <article class="animate-on-scroll delay-2 card-hover bg-white rounded-2xl border border-leaf-200/80 p-8 group">
+                    <div class="w-14 h-14 bg-earth-100 rounded-xl flex items-center justify-center mb-5 group-hover:bg-earth-200 transition-colors duration-300">
+                        <i data-lucide="apple" class="w-7 h-7 text-earth-600" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-leaf-900 mb-3">Nutrição & Alimentação</h3>
+                    <p class="text-leaf-600 leading-relaxed mb-4">Cultivar seus próprios alimentos garante acesso a produtos frescos, sem agrotóxicos e com valor nutricional superior. Segundo a <strong>FAO</strong>, hortas urbanas podem produzir até 20kg de alimentos por metro quadrado por ano, fortalecendo a segurança alimentar e a soberania popular.</p>
+                    <a href="https://www.rhs.org.uk/gardening" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-sm font-medium text-earth-600 hover:text-earth-800 link-hover transition-colors">
+                        Saiba mais <i data-lucide="external-link" class="w-3.5 h-3.5" aria-hidden="true"></i><span class="sr-only">(abre em nova aba)</span>
+                    </a>
+                </article>
+
+                <!-- Card 3 -->
+                <article class="animate-on-scroll delay-3 card-hover bg-white rounded-2xl border border-leaf-200/80 p-8 group">
+                    <div class="w-14 h-14 bg-sky-100 rounded-xl flex items-center justify-center mb-5 group-hover:bg-sky-200 transition-colors duration-300">
+                        <i data-lucide="trees" class="w-7 h-7 text-sky-700" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-leaf-900 mb-3">Meio Ambiente & Sustentabilidade</h3>
+                    <p class="text-leaf-600 leading-relaxed mb-4">Jardins e hortas atuam como sumidouros de carbono, regulam a temperatura local, favorecem a biodiversidade e o ciclo da água. A <strong>ONU Meio Ambiente</strong> estima que jardins residenciais podem reduzir o CO₂ atmosférico local em até 25%, além de servirem como refúgio para polinizadores essenciais.</p>
+                    <a href="https://www.unep.org" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-sm font-medium text-sky-700 hover:text-sky-900 link-hover transition-colors">
+                        Saiba mais <i data-lucide="external-link" class="w-3.5 h-3.5" aria-hidden="true"></i><span class="sr-only">(abre em nova aba)</span>
+                    </a>
+                </article>
+
+                <!-- Card 4 -->
+                <article class="animate-on-scroll delay-4 card-hover bg-white rounded-2xl border border-leaf-200/80 p-8 group">
+                    <div class="w-14 h-14 bg-rose-100 rounded-xl flex items-center justify-center mb-5 group-hover:bg-rose-200 transition-colors duration-300">
+                        <i data-lucide="users" class="w-7 h-7 text-rose-600" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-leaf-900 mb-3">Conexão Social & Comunidade</h3>
+                    <p class="text-leaf-600 leading-relaxed mb-4">Hortas comunitárias criam laços de solidariedade, compartilhamento de saberes e resiliência coletiva. Pesquisas da <strong>Universidade de Sheffield</strong> mostram que quem participa de hortas comunitárias tem 2.4x mais conexões sociais significativas e sente 40% mais pertencimento ao bairro.</p>
+                    <a href="https://www.communitygarden.org" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-sm font-medium text-rose-600 hover:text-rose-800 link-hover transition-colors">
+                        Saiba mais <i data-lucide="external-link" class="w-3.5 h-3.5" aria-hidden="true"></i><span class="sr-only">(abre em nova aba)</span>
+                    </a>
+                </article>
+            </div>
+
+            <!-- Quote -->
+            <figure class="animate-on-scroll bg-leaf-800 rounded-2xl p-8 sm:p-12 text-center relative overflow-hidden">
+                <div class="absolute top-0 right-0 opacity-10 leaf-spin" aria-hidden="true">
+                    <i data-lucide="flower-2" class="w-48 h-48 text-leaf-300"></i>
+                </div>
+                <i data-lucide="quote" class="w-10 h-10 text-leaf-400 mx-auto mb-4" aria-hidden="true"></i>
+                <blockquote class="text-xl sm:text-2xl font-medium text-leaf-100 leading-relaxed max-w-3xl mx-auto mb-6">
+                    "Cuidar de um jardim é cuidar de si mesmo. Cada semente plantada é um ato de esperança no futuro."
+                </blockquote>
+                <figcaption class="text-leaf-300 text-sm font-medium">— Audrey Hepburn, atriz e humanitária</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="beneficios" class="relative py-24 bg-white/50 z-10" aria-labelledby="beneficios-heading">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="animate-on-scroll">
+                    <span class="inline-block px-4 py-1.5 bg-leaf-200/60 rounded-full text-xs font-medium text-leaf-800 tracking-wide uppercase mb-4">Benefícios comprovados</span>
+                    <h2 id="beneficios-heading" class="text-3xl sm:text-4xl font-bold tracking-tight text-leaf-950 mb-6">O que a jardinagem faz por você</h2>
+                    <p class="text-lg text-leaf-600 leading-relaxed mb-8">A ciência continua revelando benefícios surpreendentes. Veja como a prática regular transforma diferentes aspectos da sua vida.</p>
+
+                    <ul class="space-y-5" role="list">
+                        <li class="flex items-start gap-4 p-4 rounded-xl hover:bg-leaf-50 transition-colors duration-200 group">
+                            <div class="w-10 h-10 bg-leaf-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-leaf-200 transition-colors">
+                                <i data-lucide="heart" class="w-5 h-5 text-leaf-700" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-leaf-900 mb-1">Reduz pressão arterial</h3>
+                                <p class="text-sm text-leaf-600">Atividade física moderada da jardinagem melhora a saúde cardiovascular em 27%.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4 p-4 rounded-xl hover:bg-leaf-50 transition-colors duration-200 group">
+                            <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-amber-200 transition-colors">
+                                <i data-lucide="sun" class="w-5 h-5 text-amber-700" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-leaf-900 mb-1">Síntese de vitamina D</h3>
+                                <p class="text-sm text-leaf-600">Exposição solar controlada durante o cultivo fortalece ossos e a imunidade.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4 p-4 rounded-xl hover:bg-leaf-50 transition-colors duration-200 group">
+                            <div class="w-10 h-10 bg-violet-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-violet-200 transition-colors">
+                                <i data-lucide="moon" class="w-5 h-5 text-violet-700" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-leaf-900 mb-1">Melhora a qualidade do sono</h3>
+                                <p class="text-sm text-leaf-600">O cansaço físico aliado ao contato com a natureza regula o ciclo circadiano.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4 p-4 rounded-xl hover:bg-leaf-50 transition-colors duration-200 group">
+                            <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-teal-200 transition-colors">
+                                <i data-lucide="zap" class="w-5 h-5 text-teal-700" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-leaf-900 mb-1">Aumenta a criatividade</h3>
+                                <p class="text-sm text-leaf-600">O design de jardins estimula o pensamento criativo e a resolução de problemas.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="animate-on-scroll delay-2 relative">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-4">
+                            <div class="overflow-hidden rounded-2xl">
+                                <img src="https://picsum.photos/seed/herb-garden-pot/400/500.jpg" alt="Vaso com ervas aromáticas frescas" class="w-full h-64 object-cover img-zoom" loading="lazy">
+                            </div>
+                            <div class="bg-leaf-800 rounded-2xl p-6 text-center">
+                                <p class="text-4xl font-bold text-leaf-100 stat-number" data-target="68" aria-label="68 porcento menos estresse">0</p>
+                                <p class="text-sm text-leaf-300 mt-1">% menos estresse</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4 pt-8">
+                            <div class="bg-earth-300 rounded-2xl p-6 text-center">
+                                <p class="text-4xl font-bold text-earth-900 stat-number" data-target="45" aria-label="45 minutos por dia recomendados">0</p>
+                                <p class="text-sm text-earth-800 mt-1">min/dia recomendados</p>
+                            </div>
+                            <div class="overflow-hidden rounded-2xl">
+                                <img src="https://picsum.photos/seed/flower-garden-sun/400/500.jpg" alt="Flores coloridas em jardim ensolarado" class="w-full h-64 object-cover img-zoom" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section id="dados" class="relative py-24 z-10" aria-labelledby="dados-heading">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 animate-on-scroll">
+                <span class="inline-block px-4 py-1.5 bg-leaf-200/60 rounded-full text-xs font-medium text-leaf-800 tracking-wide uppercase mb-4">Dados & Pesquisas</span>
+                <h2 id="dados-heading" class="text-3xl sm:text-4xl font-bold tracking-tight text-leaf-950 mb-4">A jardinagem em números</h2>
+                <p class="text-lg text-leaf-600 max-w-2xl mx-auto">Pesquisas ao redor do mundo comprovam os impactos positivos da jardinagem em diferentes aspectos da vida humana.</p>
+            </div>
+
+            <!-- Horizontal Bar Charts -->
+            <div class="grid lg:grid-cols-2 gap-8 mb-16">
+                <!-- Chart 1 -->
+                <div class="animate-on-scroll delay-1 bg-white rounded-2xl border border-leaf-200/80 p-8" role="figure" aria-label="Gráfico de impacto na saúde">
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="w-10 h-10 bg-leaf-100 rounded-lg flex items-center justify-center">
+                            <i data-lucide="activity" class="w-5 h-5 text-leaf-700" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-leaf-900">Impacto na Saúde</h3>
+                            <p class="text-xs text-leaf-500">Redução percentual de problemas de saúde</p>
+                        </div>
+                    </div>
+                    <div class="space-y-6" id="chart1">
+                        <div class="chart-item">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-leaf-800">Redução de estresse</span>
+                                <span class="text-sm font-semibold text-leaf-700">68%</span>
+                            </div>
+                            <div class="h-8 bg-leaf-100 rounded-lg overflow-hidden" role="progressbar" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100" aria-label="Redução de estresse: 68%">
+                                <div class="chart-bar h-full bg-gradient-to-r from-leaf-600 to-leaf-400 rounded-lg flex items-center justify-end pr-3" data-width="68" style="width:0%">
+                                    <span class="text-xs font-medium text-white" aria-hidden="true">68%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-item">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-leaf-800">Melhora no sono</span>
+                                <span class="text-sm font-semibold text-leaf-700">54%</span>
+                            </div>
+                            <div class="h-8 bg-leaf-100 rounded-lg overflow-hidden" role="progressbar" aria-valuenow="54" aria-valuemin="0" aria-valuemax="100" aria-label="Melhora no sono: 54%">
+                                <div class="chart-bar h-full bg-gradient-to-r from-leaf-600 to-leaf-400 rounded-lg flex items-center justify-end pr-3" data-width="54" style="width:0%">
+                                    <span class="text-xs font-medium text-white" aria-hidden="true">54%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-item">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-leaf-800">Saúde cardiovascular</span>
+                                <span class="text-sm font-semibold text-leaf-700">27%</span>
+                            </div>
+                            <div class="h-8 bg-leaf-100 rounded-lg overflow-hidden" role="progressbar" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100" aria-label="Saúde cardiovascular: 27%">
+                                <div class="chart-bar h-full bg-gradient-to-r from-leaf-600 to-leaf-400 rounded-lg flex items-center justify-end pr-3" data-width="27" style="width:0%">
+                                    <span class="text-xs font-medium text-white" aria-hidden="true">27%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-item">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-leaf-800">Redução ansiedade</span>
+                                <span class="text-sm font-semibold text-leaf-700">62%</span>
+                            </div>
+                            <div class="h-8 bg-leaf-100 rounded-lg overflow-hidden" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" aria-label="Redução ansiedade: 62%">
+                                <div class="chart-bar h-full bg-gradient-to-r from-leaf-600 to-leaf-400 rounded-lg flex items-center justify-end pr-3" data-width="62" style="width:0%">
+                                    <span class="text-xs font-medium text-white" aria-hidden="true">62%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Impacto Ambiental -->
+                <div class="animate-on-scroll delay-2 bg-white rounded-2xl border border-leaf-200/80 p-8" role="figure" aria-label="Gráfico de impacto ambiental">
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center">
+                            <i data-lucide="globe" class="w-5 h-5 text-sky-700" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-leaf-900">Impacto Ambiental</h3>
+                            <p class="text-xs text-leaf-500">Contribuição positiva por tipo de jardim</p>
+                        </div>
+                    </div>
+                    <div class="space-y-6" id="chart2">
+                        <div class="chart-item">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-leaf-800">Captura de CO₂</span>
+                                <span class="text-sm font-semibold text-sky-700">82%</span>
+                            </div>
+                            <div class="h-8 bg-sky-100 rounded-lg overflow-hidden" role="progressbar" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100" aria-label="Captura de CO2: 82%">
+                                <div class="chart-bar h-full bg-gradient-to-r from-sky-600 to-sky-400 rounded-lg flex items-center justify-end pr-3" data-width="82" style="width:0%">
+                                    <span class="text-xs font-medium text-white" aria-hidden="true">82%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-item">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-leaf-800">Biodiversidade local</span>
+                                <span class="text-sm font-semibold text-sky-700">75%</span>
+                            </div>
+                            <div class="h-8 bg-sky-100 rounded-lg overflow-hidden" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" aria-label="Biodiversidade local: 75%">
+                                <div class="chart-bar h-full bg-gradient-to-r from-sky-600 to-sky-400 rounded-lg flex items-center justify-end pr-3" data-width="75" style="width:0%">
+                                    <span class="text-xs font-medium text-white" aria-hidden="true">75%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-item">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-leaf-800">Regulação térmica</span>
+                                <span class="text-sm font-semibold text-sky-700">58%</span>
+                            </div>
+                            <div class="h-8 bg-sky-100 rounded-lg overflow-hidden" role="progressbar" aria-valuenow="58" aria-valuemin="0" aria-valuemax="100" aria-label="Regulação térmica: 58%">
+                                <div class="chart-bar h-full bg-gradient-to-r from-sky-600 to-sky-400 rounded-lg flex items-center justify-end pr-3" data-width="58" style="width:0%">
+                                    <span class="text-xs font-medium text-white" aria-hidden="true">58%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-item">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-leaf-800">Retenção de água</span>
+                                <span class="text-sm font-semibold text-sky-700">46%</span>
+                            </div>
+                            <div class="h-8 bg-sky-100 rounded-lg overflow-hidden" role="progressbar" aria-valuenow="46" aria-valuemin="0" aria-valuemax="100" aria-label="Retenção de água: 46%">
+                                <div class="chart-bar h-full bg-gradient-to-r from-sky-600 to-sky-400 rounded-lg flex items-center justify-end pr-3" data-width="46" style="width:0%">
+                                    <span class="text-xs font-medium text-white" aria-hidden="true">46%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vertical Bar Chart -->
+            <div class="animate-on-scroll bg-white rounded-2xl border border-leaf-200/80 p-8 sm:p-10" role="figure" aria-label="Gráfico de crescimento da jardinagem por região entre 2020 e 2024">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-earth-100 rounded-lg flex items-center justify-center">
+                            <i data-lucide="bar-chart-3" class="w-5 h-5 text-earth-600" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-leaf-900">Crescimento da Jardinagem por Região</h3>
+                            <p class="text-xs text-leaf-500">Adesão de novos praticantes (2020–2026, em milhões)</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 text-xs">
+                        <span class="flex items-center gap-1.5"><span class="w-3 h-3 bg-leaf-600 rounded-sm" aria-hidden="true"></span> 2020</span>
+                        <span class="flex items-center gap-1.5"><span class="w-3 h-3 bg-leaf-400 rounded-sm" aria-hidden="true"></span> 2026</span>
+                    </div>
+                </div>
+
+                <div class="flex items-end justify-between gap-3 sm:gap-6 h-64 pb-8" id="verticalChart">
+                    <div class="flex-1 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
+                        <div class="tooltip" role="tooltip">América do Norte: 45M (2020) / 72M (2024)</div>
+                        <div class="chart-bar w-6 sm:w-10 bg-leaf-600 rounded-t-lg" data-height="45" style="height:0%"></div>
+                        <div class="chart-bar w-6 sm:w-10 bg-leaf-400 rounded-t-lg" data-height="72" style="height:0%"></div>
+                        <span class="absolute -bottom-6 text-xs text-leaf-600 font-medium whitespace-nowrap">América N.</span>
+                    </div>
+                    <div class="flex-1 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
+                        <div class="tooltip" role="tooltip">América do Sul: 32M (2020) / 58M (2024)</div>
+                        <div class="chart-bar w-6 sm:w-10 bg-leaf-600 rounded-t-lg" data-height="32" style="height:0%"></div>
+                        <div class="chart-bar w-6 sm:w-10 bg-leaf-400 rounded-t-lg" data-height="58" style="height:0%"></div>
+                        <span class="absolute -bottom-6 text-xs text-leaf-600 font-medium whitespace-nowrap">América S.</span>
+                    </div>
+                    <div class="flex-1 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
+                        <div class="tooltip" role="tooltip">Europa: 62M (2020) / 85M (2024)</div>
+                        <div class="chart-bar w-6 sm:w-10 bg-leaf-600 rounded-t-lg" data-height="62" style="height:0%"></div>
+                        <div class="chart-bar w-6 sm:w-10 bg-leaf-400 rounded-t-lg" data-height="85" style="height:0%"></div>
+                        <span class="absolute -bottom-6 text-xs text-leaf-600 font-medium whitespace-nowrap">Europa</span>
+                    </div>
+                    <div class="flex-1 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
+                        <div class="tooltip" role="tooltip">Ásia: 38M (2020) / 68M (2024)</div>
+                        <div class="chart-bar w-6 sm:w-10 bg-leaf-600 rounded-t-lg" data-height="38" style="height:0%"></div>
+                        <div class="chart-bar w-6 sm:w-10 bg-leaf-400 rounded-t-lg" data-height="68" style="height:0%"></div>
+                        <span class="absolute -bottom-6 text-xs text-leaf-600 font-medium whitespace-nowrap">Ásia</span>
+                    </div>
+                    <div class="flex-1 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
+                        <div class="tooltip" role="tooltip">África: 25M (2020) / 48M (2024)</div>
+                        <div class="chart-bar w-6 sm:w-10 bg-leaf-600 rounded-t-lg" data-height="25" style="height:0%"></div>
+                        <div class="chart-bar w-6 sm:w-10 bg-leaf-400 rounded-t-lg" data-height="48" style="height:0%"></div>
+                        <span class="absolute -bottom-6 text-xs text-leaf-600 font-medium whitespace-nowrap">África</span>
+                    </div>
+                    <div class="flex-1 flex items-end justify-center gap-1.5 sm:gap-2 h-full tooltip-container relative">
+                        <div class="tooltip" role="tooltip">Oceania: 40M (2020) / 65M (2024)</div>
+                        <div class="chart-bar w-6 sm:w-10 bg-leaf-600 rounded-t-lg" data-height="40" style="height:0%"></div>
+                        <div class="chart-bar w-6 sm:w-10 bg-leaf-400 rounded-t-lg" data-height="65" style="height:0%"></div>
+                        <span class="absolute -bottom-6 text-xs text-leaf-600 font-medium whitespace-nowrap">Oceania</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-center text-xs text-leaf-500 mt-6">Fontes: ONU Meio Ambiente, RHS, Universidade de Exeter, FAO — Dados compilados 2020–2026</p>
+        </div>
+    </section>
+
+    <!-- How to Start Section -->
+    <section id="inicio" class="relative py-24 bg-white/50 z-10" aria-labelledby="inicio-heading">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 animate-on-scroll">
+                <span class="inline-block px-4 py-1.5 bg-leaf-200/60 rounded-full text-xs font-medium text-leaf-800 tracking-wide uppercase mb-4">Primeiros passos</span>
+                <h2 id="inicio-heading" class="text-3xl sm:text-4xl font-bold tracking-tight text-leaf-950 mb-4">Como começar sua jornada</h2>
+                <p class="text-lg text-leaf-600 max-w-2xl mx-auto">Não é preciso ter muito espaço ou experiência. Comece simples e deixe sua conexão com a natureza crescer organicamente.</p>
+            </div>
+
+            <ol class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 list-none">
+                <!-- Step 1 -->
+                <li class="animate-on-scroll delay-1 card-hover bg-white rounded-2xl border border-leaf-200/80 p-6 text-center relative group">
+                    <div class="absolute top-4 right-4 text-5xl font-bold text-leaf-100 group-hover:text-leaf-200 transition-colors" aria-hidden="true">01</div>
+                    <div class="w-16 h-16 bg-leaf-100 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:bg-leaf-200 transition-colors duration-300">
+                        <i data-lucide="flower-2" class="w-8 h-8 text-leaf-700" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="font-semibold text-leaf-900 mb-2">Escolha suas plantas</h3>
+                    <p class="text-sm text-leaf-600 leading-relaxed">Comece com espécies resistentes como suculentas, hortelã ou tomate-cereja. Considere a luz natural do seu espaço.</p>
+                </li>
+
+                <!-- Step 2 -->
+                <li class="animate-on-scroll delay-2 card-hover bg-white rounded-2xl border border-leaf-200/80 p-6 text-center relative group">
+                    <div class="absolute top-4 right-4 text-5xl font-bold text-leaf-100 group-hover:text-leaf-200 transition-colors" aria-hidden="true">02</div>
+                    <div class="w-16 h-16 bg-earth-100 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:bg-earth-200 transition-colors duration-300">
+                        <i data-lucide="shovel" class="w-8 h-8 text-earth-600" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="font-semibold text-leaf-900 mb-2">Prepare o solo</h3>
+                    <p class="text-sm text-leaf-600 leading-relaxed">Use substrato de qualidade e adicione compostagem. Um bom solo é a base de plantas saudáveis.</p>
+                </li>
+
+                <!-- Step 3 -->
+                <li class="animate-on-scroll delay-3 card-hover bg-white rounded-2xl border border-leaf-200/80 p-6 text-center relative group">
+                    <div class="absolute top-4 right-4 text-5xl font-bold text-leaf-100 group-hover:text-leaf-200 transition-colors" aria-hidden="true">03</div>
+                    <div class="w-16 h-16 bg-sky-100 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:bg-sky-200 transition-colors duration-300">
+                        <i data-lucide="droplets" class="w-8 h-8 text-sky-600" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="font-semibold text-leaf-900 mb-2">Crie uma rotina</h3>
+                    <p class="text-sm text-leaf-600 leading-relaxed">Regue regularmente, observe suas plantas e ajuste. A constância é mais importante que a perfeição.</p>
+                </li>
+
+                <!-- Step 4 -->
+                <li class="animate-on-scroll delay-4 card-hover bg-white rounded-2xl border border-leaf-200/80 p-6 text-center relative group">
+                    <div class="absolute top-4 right-4 text-5xl font-bold text-leaf-100 group-hover:text-leaf-200 transition-colors" aria-hidden="true">04</div>
+                    <div class="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:bg-amber-200 transition-colors duration-300">
+                        <i data-lucide="share-2" class="w-8 h-8 text-amber-600" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="font-semibold text-leaf-900 mb-2">Compartilhe & Aprenda</h3>
+                    <p class="text-sm text-leaf-600 leading-relaxed">Troque mudas, experiências e saberes. A comunidade de jardineiros é acolhedora e generosa.</p>
+                </li>
+            </ol>
+
+            <!-- Quick Tips -->
+            <div class="animate-on-scroll mt-12 bg-leaf-800 rounded-2xl p-8 sm:p-10 relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-leaf-800 to-leaf-900" aria-hidden="true"></div>
+                <div class="absolute top-0 right-0 opacity-5" aria-hidden="true">
+                    <i data-lucide="leaf" class="w-64 h-64 text-white"></i>
+                </div>
+                <div class="relative grid md:grid-cols-3 gap-8">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-leaf-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="lightbulb" class="w-5 h-5 text-leaf-300" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-leaf-100 mb-1">Dica de ouro</h4>
+                            <p class="text-sm text-leaf-300">Não regue em excesso! A causa número 1 de morte de plantas é o encharcamento, não a falta de água.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-leaf-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="calendar" class="w-5 h-5 text-leaf-300" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-leaf-100 mb-1">Melhor horário</h4>
+                            <p class="text-sm text-leaf-300">Regue pela manhã cedo ou no final da tarde para evitar evaporação rápida.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-leaf-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="recycle" class="w-5 h-5 text-leaf-300" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-leaf-100 mb-1">Composte</h4>
+                            <p class="text-sm text-leaf-300">Restos de alimentos viram adubo rico. Sua horta e o planeta agradecem.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="recursos" class="relative py-24 z-10" aria-labelledby="recursos-heading">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 animate-on-scroll">
+                <span class="inline-block px-4 py-1.5 bg-leaf-200/60 rounded-full text-xs font-medium text-leaf-800 tracking-wide uppercase mb-4">Para se aprofundar</span>
+                <h2 id="recursos-heading" class="text-3xl sm:text-4xl font-bold tracking-tight text-leaf-950 mb-4">Recursos & Referências</h2>
+                <p class="text-lg text-leaf-600 max-w-2xl mx-auto">Explore fontes confiáveis para aprender mais sobre jardinagem, sustentabilidade e bem-estar.</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <a href="https://www.rhs.org.uk" target="_blank" rel="noopener noreferrer" class="animate-on-scroll delay-1 card-hover bg-white rounded-2xl border border-leaf-200/80 p-6 group block">
+                    <div class="w-12 h-12 bg-leaf-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-leaf-200 transition-colors">
+                        <i data-lucide="book-open" class="w-6 h-6 text-leaf-700" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="font-semibold text-leaf-900 mb-2 group-hover:text-leaf-700 transition-colors">Royal Horticultural Society</h3>
+                    <p class="text-sm text-leaf-600 mb-3">Guias completos de cultivo, calendário de plantio e dicas de especialistas britânicos.</p>
+                    <span class="inline-flex items-center gap-1 text-sm font-medium text-leaf-700">Visitar <i data-lucide="arrow-up-right" class="w-3.5 h-3.5" aria-hidden="true"></i><span class="sr-only">(abre em nova aba)</span></span>
+                </a>
+
+                <a href="https://www.gardeningknowhow.com" target="_blank" rel="noopener noreferrer" class="animate-on-scroll delay-2 card-hover bg-white rounded-2xl border border-leaf-200/80 p-6 group block">
+                    <div class="w-12 h-12 bg-earth-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-earth-200 transition-colors">
+                        <i data-lucide="sprout" class="w-6 h-6 text-earth-600" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="font-semibold text-leaf-900 mb-2 group-hover:text-leaf-700 transition-colors">Gardening Know How</h3>
+                    <p class="text-sm text-leaf-600 mb-3">Artigos práticos para todos os níveis, desde iniciantes até jardineiros avançados.</p>
+                    <span class="inline-flex items-center gap-1 text-sm font-medium text-earth-600">Visitar <i data-lucide="arrow-up-right" class="w-3.5 h-3.5" aria-hidden="true"></i><span class="sr-only">(abre em nova aba)</span></span>
+                </a>
+
+                <a href="https://www.embrapa.br/horta-em-casa" target="_blank" rel="noopener noreferrer" class="animate-on-scroll delay-3 card-hover bg-white rounded-2xl border border-leaf-200/80 p-6 group block">
+                    <div class="w-12 h-12 bg-sky-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-sky-200 transition-colors">
+                        <i data-lucide="landmark" class="w-6 h-6 text-sky-700" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="font-semibold text-leaf-900 mb-2 group-hover:text-leaf-700 transition-colors">Embrapa — Horta em Casa</h3>
+                    <p class="text-sm text-leaf-600 mb-3">Pesquisa brasileira com orientações técnicas para hortas urbanas e periurbanas.</p>
+                    <span class="inline-flex items-center gap-1 text-sm font-medium text-sky-700">Visitar <i data-lucide="arrow-up-right" class="w-3.5 h-3.5" aria-hidden="true"></i><span class="sr-only">(abre em nova aba)</span></span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    </main><!-- /main-content -->
+
+    <!-- Footer -->
+    <footer class="relative bg-leaf-900 text-leaf-200 py-16 z-10" role="contentinfo">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+                <div>
+                    <a href="#" class="flex items-center gap-2 mb-4" aria-label="Verde Vida - Página inicial">
+                        <div class="w-8 h-8 bg-leaf-700 rounded-lg flex items-center justify-center">
+                            <i data-lucide="leaf" class="w-4 h-4 text-leaf-200" aria-hidden="true"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-leaf-100">Verde<span class="text-leaf-400">Vida</span></span>
+                    </a>
+                    <p class="text-sm text-leaf-400 leading-relaxed">Promovendo a conexão entre pessoas e natureza através da jardinagem consciente.</p>
+                </div>
+                <nav aria-label="Links rápidos">
+                    <h4 class="font-semibold text-leaf-100 mb-4">Navegação</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#importancia" class="text-leaf-400 hover:text-leaf-100 transition-colors">Importância</a></li>
+                        <li><a href="#beneficios" class="text-leaf-400 hover:text-leaf-100 transition-colors">Benefícios</a></li>
+                        <li><a href="#dados" class="text-leaf-400 hover:text-leaf-100 transition-colors">Dados</a></li>
+                        <li><a href="#inicio" class="text-leaf-400 hover:text-leaf-100 transition-colors">Como Iniciar</a></li>
+                    </ul>
+                </nav>
+                <nav aria-label="Recursos externos">
+                    <h4 class="font-semibold text-leaf-100 mb-4">Recursos</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="https://www.rhs.org.uk" target="_blank" rel="noopener noreferrer" class="text-leaf-400 hover:text-leaf-100 transition-colors">RHS <span class="sr-only">(abre em nova aba)</span></a></li>
+                        <li><a href="https://www.embrapa.br" target="_blank" rel="noopener noreferrer" class="text-leaf-400 hover:text-leaf-100 transition-colors">Embrapa <span class="sr-only">(abre em nova aba)</span></a></li>
+                        <li><a href="https://www.unep.org" target="_blank" rel="noopener noreferrer" class="text-leaf-400 hover:text-leaf-100 transition-colors">ONU Meio Ambiente <span class="sr-only">(abre em nova aba)</span></a></li>
+                    </ul>
+                </nav>
+                <div>
+                    <h4 class="font-semibold text-leaf-100 mb-4">Contato</h4>
+                    <p class="text-sm text-leaf-400 leading-relaxed">Dúvidas ou sugestões?<br>Envie para <a href="mailto:contato@verdevida.com" class="text-leaf-300 hover:text-leaf-100 underline transition-colors">contato@verdevida.com</a></p>
+                </div>
+            </div>
+            <div class="border-t border-leaf-800 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-xs text-leaf-500">© 2026 Verde Vida. Projeto educacional sobre jardinagem e bem-estar.</p>
+                <a href="#" class="text-xs text-leaf-500 hover:text-leaf-300 transition-colors flex items-center gap-1" aria-label="Voltar ao topo da página">
+                    Voltar ao topo <i data-lucide="arrow-up" class="w-3 h-3" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Mobile menu toggle with accessibility
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuToggle.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.toggle('open');
+            menuToggle.setAttribute('aria-expanded', isOpen);
+            mobileMenu.setAttribute('aria-hidden', !isOpen);
+
+            // Trap focus inside mobile menu when open
+            if (isOpen) {
+                const firstLink = mobileMenu.querySelector('a');
+                if (firstLink) firstLink.focus();
+            }
+        });
+
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                mobileMenu.setAttribute('aria-hidden', 'true');
+            });
+        });
+
+        // Close mobile menu on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+                mobileMenu.classList.remove('open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                mobileMenu.setAttribute('aria-hidden', 'true');
+                menuToggle.focus();
+            }
+        });
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Animate chart bars when visible
+                    const bars = entry.target.querySelectorAll('.chart-bar[data-width]');
+                    bars.forEach((bar, i) => {
+                        setTimeout(() => {
+                            bar.style.width = bar.dataset.width + '%';
+                        }, i * 100);
+                    });
+                    const vBars = entry.target.querySelectorAll('.chart-bar[data-height]');
+                    vBars.forEach((bar, i) => {
+                        setTimeout(() => {
+                            bar.style.height = bar.dataset.height + '%';
+                        }, i * 80);
+                    });
+                    scrollObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            scrollObserver.observe(el);
+        });
+
+        // Animated stat counters
+        const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.target);
+                    let current = 0;
+                    const increment = target / 40;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(timer);
+                        }
+                        el.textContent = Math.round(current);
+                    }, 30);
+                    statObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statNumbers.forEach(el => statObserver.observe(el));
+
+        // Navbar background on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-sm');
+            } else {
+                navbar.classList.remove('shadow-sm');
+            }
+        }, { passive: true });
+    </script>
+</body>
+</html>
